@@ -69,12 +69,12 @@ class PrintESCPOSController extends Controller
             $cmds .= self::ESC . '0'; // 1/8-inch line spacing
             $cmds .= self::ESC . 'g'; // Font 15 cpi
 
+            $cmds .= self::FONT_PROPORTIONAL_START;
             $cmds .= 'NPWP: 01.682.572.1-641.000, Ijin PBF: FP.1293819' . self::LF;
             $cmds .= 'Alamat: JL. RAYA TAMAN 48A' . self::LF;
             $cmds .= self::FONT_BOLD_START . 'Alamat: JL. RAYA TAMAN 48A' . self::FONT_BOLD_END . self::LF;
             $cmds .= self::FONT_ITALIC_START . 'Alamat: JL. RAYA TAMAN 48A' . self::FONT_ITALIC_END . self::LF;
             // Non-monospaced
-            $cmds .= self::FONT_PROPORTIONAL_START;
             // Typeface variations
             $cmds .= self::TYPEFACE_SANS_SERIF;
             $cmds .= 'Alamat: JL. RAYA TAMAN 48A'  . self::LF;
@@ -85,6 +85,8 @@ class PrintESCPOSController extends Controller
             $cmds .= self::TYPEFACE_SCRIPT;
             $cmds .= 'Alamat: JL. RAYA TAMAN 48A' . self::LF;
             $cmds .= self::FONT_PROPORTIONAL_END;
+            // Monospaced Roman
+            $cmds .= self::TYPEFACE_ROMAN;
             $cmds .= 'Alamat: JL. RAYA TAMAN 48A' . self::LF;
             $cmds .= 'Alamat: JL. RAYA TAMAN 48A' . self::LF;
             $cmds .= 'Alamat: JL. RAYA TAMAN 48A' . self::LF;
