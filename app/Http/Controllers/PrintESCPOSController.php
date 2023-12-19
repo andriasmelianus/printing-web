@@ -27,6 +27,16 @@ use Session;
 
 class PrintESCPOSController extends Controller
 {
+    public const ESC = '0x1B';
+    public const LF = '0x0A';
+    public const RESET = '@';
+
+    public const ESC_INITIALIZE = self::ESC . self::RESET;
+    public const FONT_BOLD_START = self::ESC . 'E';
+    public const FONT_BOLD_END = self::ESC . 'F';
+    public const FONT_ITALIC_START = self::ESC . '4';
+    public const FONT_ITALIC_END = self::ESC . '5';
+
     public function printCommands(Request $request)
     {
 
@@ -35,35 +45,53 @@ class PrintESCPOSController extends Controller
             $useDefaultPrinter = ($request->input('useDefaultPrinter') === 'checked');
             $printerName = urldecode($request->input('printerName'));
 
-            //Create ESC/POS commands for sample receipt
-            $esc = '0x1B'; //ESC byte in hex notation
-            $newLine = '0x0A'; //LF byte in hex notation
+            $cmds = self::ESC_INITIALIZE;
+            $cmds .= self::ESC . '0'; // 1/8-inch line spacing
+            $cmds .= self::ESC . 'g'; // Font 15 cpi
 
-            $cmds = '';
-            $cmds = $esc . "@"; //Initializes the printer (ESC @)
-            $cmds .= $esc . '!' . '0x38'; //Emphasized + Double-height + Double-width mode selected (ESC ! (8 + 16 + 32)) 56 dec => 38 hex
-            $cmds .= 'BEST DEAL STORES'; //text to print
-            $cmds .= $newLine . $newLine;
-            $cmds .= $esc . '!' . '0x00'; //Character font A selected (ESC ! 0)
-            $cmds .= 'COOKIES                   5.00';
-            $cmds .= $newLine;
-            $cmds .= 'MILK 65 Fl oz             3.78';
-            $cmds .= $newLine . $newLine;
-            $cmds .= 'SUBTOTAL                  8.78';
-            $cmds .= $newLine;
-            $cmds .= 'TAX 5%                    0.44';
-            $cmds .= $newLine;
-            $cmds .= 'TOTAL                     9.22';
-            $cmds .= $newLine;
-            $cmds .= 'CASH TEND                10.00';
-            $cmds .= $newLine;
-            $cmds .= 'CASH DUE                  0.78';
-            $cmds .= $newLine . $newLine;
-            $cmds .= $esc . '!' . '0x18'; //Emphasized + Double-height mode selected (ESC ! (16 + 8)) 24 dec => 18 hex
-            $cmds .= '# ITEMS SOLD 2';
-            $cmds .= $esc . '!' . '0x00'; //Character font A selected (ESC ! 0)
-            $cmds .= $newLine . $newLine;
-            $cmds .= '11/03/13  19:53:17';
+            $cmds .= 'NPWP: 01.682.572.1-641.000, Ijin PBF: FP.1293819' . self::LF;
+            $cmds .= 'Alamat: JL. RAYA TAMAN 48A' . self::LF;
+            $cmds .= self::FONT_BOLD_START . 'Alamat: JL. RAYA TAMAN 48A' . self::FONT_BOLD_END . self::LF;
+            $cmds .= self::FONT_ITALIC_START . 'Alamat: JL. RAYA TAMAN 48A' . self::FONT_ITALIC_END . self::LF;
+            $cmds .= 'Alamat: JL. RAYA TAMAN 48A' . self::LF;
+            $cmds .= 'Alamat: JL. RAYA TAMAN 48A' . self::LF;
+            $cmds .= 'Alamat: JL. RAYA TAMAN 48A' . self::LF;
+            $cmds .= 'Alamat: JL. RAYA TAMAN 48A' . self::LF;
+            $cmds .= 'Alamat: JL. RAYA TAMAN 48A' . self::LF;
+            $cmds .= 'Alamat: JL. RAYA TAMAN 48A' . self::LF;
+            $cmds .= 'Alamat: JL. RAYA TAMAN 48A' . self::LF;
+            $cmds .= 'Alamat: JL. RAYA TAMAN 48A' . self::LF;
+
+            // SAMPLE FROM OFFICIAL WEBSITE.
+            //Create ESC/POS commands for sample receipt
+            // $esc = '0x1B'; //ESC byte in hex notation
+            // $newLine = '0x0A'; //LF byte in hex notation
+
+            // $cmds = '';
+            // $cmds = $esc . "@"; //Initializes the printer (ESC @)
+            // $cmds .= $esc . '!' . '0x38'; //Emphasized + Double-height + Double-width mode selected (ESC ! (8 + 16 + 32)) 56 dec => 38 hex
+            // $cmds .= 'BEST DEAL STORES'; //text to print
+            // $cmds .= $newLine . $newLine;
+            // $cmds .= $esc . '!' . '0x00'; //Character font A selected (ESC ! 0)
+            // $cmds .= 'COOKIES                   5.00';
+            // $cmds .= $newLine;
+            // $cmds .= 'MILK 65 Fl oz             3.78';
+            // $cmds .= $newLine . $newLine;
+            // $cmds .= 'SUBTOTAL                  8.78';
+            // $cmds .= $newLine;
+            // $cmds .= 'TAX 5%                    0.44';
+            // $cmds .= $newLine;
+            // $cmds .= 'TOTAL                     9.22';
+            // $cmds .= $newLine;
+            // $cmds .= 'CASH TEND                10.00';
+            // $cmds .= $newLine;
+            // $cmds .= 'CASH DUE                  0.78';
+            // $cmds .= $newLine . $newLine;
+            // $cmds .= $esc . '!' . '0x18'; //Emphasized + Double-height mode selected (ESC ! (16 + 8)) 24 dec => 18 hex
+            // $cmds .= '# ITEMS SOLD 2';
+            // $cmds .= $esc . '!' . '0x00'; //Character font A selected (ESC ! 0)
+            // $cmds .= $newLine . $newLine;
+            // $cmds .= '11/03/13  19:53:17';
 
             //Create a ClientPrintJob obj that will be processed at the client side by the WCPP
             $cpj = new ClientPrintJob();
