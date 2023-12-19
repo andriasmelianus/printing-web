@@ -32,10 +32,30 @@ class PrintESCPOSController extends Controller
     public const RESET = '@';
 
     public const ESC_INITIALIZE = self::ESC . self::RESET;
+    // BOLD
     public const FONT_BOLD_START = self::ESC . 'E';
     public const FONT_BOLD_END = self::ESC . 'F';
+    // ITALIC
     public const FONT_ITALIC_START = self::ESC . '4';
     public const FONT_ITALIC_END = self::ESC . '5';
+    // PROPORTIONAL (Non-monospaced)
+    public const FONT_PROPORTIONAL_START = self::ESC . 'p1';
+    public const FONT_PROPORTIONAL_END = self::ESC . 'p0';
+    // Typeface
+    public const TYPEFACE_ROMAN = self::ESC . 'k0';
+    public const TYPEFACE_SANS_SERIF = self::ESC . 'k1';
+    public const TYPEFACE_COURIER = self::ESC . 'k2';
+    public const TYPEFACE_PRESTIGE = self::ESC . 'k3';
+    public const TYPEFACE_SCRIPT = self::ESC . 'k4';
+    public const TYPEFACE_OCR_B = self::ESC . 'k5';
+    public const TYPEFACE_OCR_A = self::ESC . 'k6';
+    public const TYPEFACE_ORATOR = self::ESC . 'k7';
+    public const TYPEFACE_ORATOR_S = self::ESC . 'k8';
+    public const TYPEFACE_SCRIPT_C = self::ESC . 'k9';
+    public const TYPEFACE_ROMAN_T = self::ESC . 'kA';
+    public const TYPEFACE_SANS_SERIF_H = self::ESC . 'kB';
+    public const TYPEFACE_SV_BUSABA = self::ESC . 'k' . '0x1E';
+    public const TYPEFACE_SV_JITTRA = self::ESC . 'k' . '0x1F';
 
     public function printCommands(Request $request)
     {
@@ -53,14 +73,22 @@ class PrintESCPOSController extends Controller
             $cmds .= 'Alamat: JL. RAYA TAMAN 48A' . self::LF;
             $cmds .= self::FONT_BOLD_START . 'Alamat: JL. RAYA TAMAN 48A' . self::FONT_BOLD_END . self::LF;
             $cmds .= self::FONT_ITALIC_START . 'Alamat: JL. RAYA TAMAN 48A' . self::FONT_ITALIC_END . self::LF;
+            // Non-monospaced
+            $cmds .= self::FONT_PROPORTIONAL_START;
+            // Typeface variations
+            $cmds .= self::TYPEFACE_SANS_SERIF;
+            $cmds .= 'Alamat: JL. RAYA TAMAN 48A'  . self::LF;
+            $cmds .= self::TYPEFACE_COURIER;
+            $cmds .= 'Alamat: JL. RAYA TAMAN 48A' . self::LF;
+            $cmds .= self::TYPEFACE_PRESTIGE;
+            $cmds .= 'Alamat: JL. RAYA TAMAN 48A' . self::LF;
+            $cmds .= self::TYPEFACE_SCRIPT;
             $cmds .= 'Alamat: JL. RAYA TAMAN 48A' . self::LF;
             $cmds .= 'Alamat: JL. RAYA TAMAN 48A' . self::LF;
             $cmds .= 'Alamat: JL. RAYA TAMAN 48A' . self::LF;
             $cmds .= 'Alamat: JL. RAYA TAMAN 48A' . self::LF;
             $cmds .= 'Alamat: JL. RAYA TAMAN 48A' . self::LF;
-            $cmds .= 'Alamat: JL. RAYA TAMAN 48A' . self::LF;
-            $cmds .= 'Alamat: JL. RAYA TAMAN 48A' . self::LF;
-            $cmds .= 'Alamat: JL. RAYA TAMAN 48A' . self::LF;
+            $cmds .= self::FONT_PROPORTIONAL_END;
 
             // SAMPLE FROM OFFICIAL WEBSITE.
             //Create ESC/POS commands for sample receipt
