@@ -84,11 +84,11 @@ class PrintESCPOSController extends Controller
             $cmds .= 'Alamat: JL. RAYA TAMAN 48A' . self::LF;
             $cmds .= self::TYPEFACE_SCRIPT;
             $cmds .= 'Alamat: JL. RAYA TAMAN 48A' . self::LF;
-            $cmds .= 'Alamat: JL. RAYA TAMAN 48A' . self::LF;
-            $cmds .= 'Alamat: JL. RAYA TAMAN 48A' . self::LF;
-            $cmds .= 'Alamat: JL. RAYA TAMAN 48A' . self::LF;
-            $cmds .= 'Alamat: JL. RAYA TAMAN 48A' . self::LF;
             $cmds .= self::FONT_PROPORTIONAL_END;
+            $cmds .= 'Alamat: JL. RAYA TAMAN 48A' . self::LF;
+            $cmds .= 'Alamat: JL. RAYA TAMAN 48A' . self::LF;
+            $cmds .= 'Alamat: JL. RAYA TAMAN 48A' . self::LF;
+            $cmds .= 'Alamat: JL. RAYA TAMAN 48A' . self::LF;
 
             // SAMPLE FROM OFFICIAL WEBSITE.
             //Create ESC/POS commands for sample receipt
