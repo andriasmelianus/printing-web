@@ -170,9 +170,9 @@ class Escp2
     /**
      * Clear previously generated commands.
      *
-     * @return App\WebClientPrint\Escp2
+     * @return Escp2
      */
-    public function clear()
+    public function clear(): Escp2
     {
         $this->command = '';
 
@@ -184,9 +184,9 @@ class Escp2
      * Also define the unit.
      *
      * @param string $initializeCommand Default value is @.
-     * @return App\WebClientPrint\Escp2
+     * @return Escp2
      */
-    public function initializePrinter(string $initializeCommand = '@')
+    public function initializePrinter(string $initializeCommand = '@'): Escp2
     {
         $this->command = $this->convertStringToEscp2Command('esc ' . $initializeCommand);
         $this->command .= $this->convertStringToEscp2Command('esc ( U 1 0 ' . $this->unit);
@@ -206,9 +206,9 @@ class Escp2
      * - Changing the defined unit does not affect the current page-length setting.
      *
      * @param float $lengthInMilimeter Page length in milimeters.
-     * @return App\WebClientPrint\Escp2
+     * @return Escp2
      */
-    public function setPageLengthInDefinedUnit(float $lengthInMilimeter)
+    public function setPageLengthInDefinedUnit(float $lengthInMilimeter): Escp2
     {
         $this->pageLengthInMilimeter = $lengthInMilimeter;
 
@@ -238,9 +238,9 @@ class Escp2
      *
      * @param float $topMarginInMilimeter Margin measured from top.
      * @param float $bottomMarginInMilimeter Margin measured from bottom.
-     * @return App\WebClientPrint\Escp2
+     * @return Escp2
      */
-    public function setMarginTopBottom(float $topMarginInMilimeter, float $bottomMarginInMilimeter)
+    public function setMarginTopBottom(float $topMarginInMilimeter, float $bottomMarginInMilimeter): Escp2
     {
         $this->topMarginInMilimeter = $topMarginInMilimeter;
         /**
@@ -265,9 +265,9 @@ class Escp2
     /**
      * Set line spacing to 1/8 inch.
      *
-     * @return App\WebClientPrint\Escp2
+     * @return Escp2
      */
-    public function setLineSpacing18()
+    public function setLineSpacing18(): Escp2
     {
         $this->command .= $this->convertStringToEscp2Command('esc 0');
 
@@ -277,9 +277,9 @@ class Escp2
     /**
      * Set line spacing to 1/6 inch.
      *
-     * @return App\WebClientPrint\Escp2
+     * @return Escp2
      */
-    public function setLineSpacing16()
+    public function setLineSpacing16(): Escp2
     {
         $this->command .= $this->convertStringToEscp2Command('esc 2');
 
@@ -290,9 +290,9 @@ class Escp2
      * Set line spacing to n/180 inch.
      *
      * @param int $n Line spacing value to be divided.
-     * @return App\WebClientPrint\Escp2
+     * @return Escp2
      */
-    public function setLineSpacingN180(int $n)
+    public function setLineSpacingN180(int $n): Escp2
     {
         $this->command .= $this->convertStringToEscp2Command('esc 3 ' . $n);
 
@@ -303,9 +303,9 @@ class Escp2
      * Set line spacing to n/360 inch.
      *
      * @param int $n Line spacing value to be divided.
-     * @return App\WebClientPrint\Escp2
+     * @return Escp2
      */
-    public function setLineSpacingN360(int $n)
+    public function setLineSpacingN360(int $n): Escp2
     {
         $this->command .= $this->convertStringToEscp2Command('esc + ' . $n);
 
@@ -316,9 +316,9 @@ class Escp2
      * Set line spacing to n/60 inch.
      *
      * @param int $n Line spacing value to be divided.
-     * @return App\WebClientPrint\Escp2
+     * @return Escp2
      */
-    public function setLineSpacingN60(int $n)
+    public function setLineSpacingN60(int $n): Escp2
     {
         $this->command .= $this->convertStringToEscp2Command('esc A ' . $n);
 
@@ -332,9 +332,9 @@ class Escp2
      * 2: LC1
      *
      * @param integer $value
-     * @return App\WebClientPrint\Escp2
+     * @return Escp2
      */
-    public function loadEjectPaper(int $value = 1)
+    public function loadEjectPaper(int $value = 1): Escp2
     {
         $this->command .= $this->convertStringToEscp2Command('esc em ' . $value);
 
@@ -346,9 +346,9 @@ class Escp2
      *
      * @param string $text
      * @param bool $isFollowedByLineFeed
-     * @return App\WebClientPrint\Escp2
+     * @return Escp2
      */
-    public function addText(string $text, bool $isFollowedByLineFeed = false)
+    public function addText(string $text, bool $isFollowedByLineFeed = false): Escp2
     {
         $this->command .= $text;
         $this->command .= $isFollowedByLineFeed ? $this->convertStringToEscp2Command('lf') : '';
@@ -361,9 +361,9 @@ class Escp2
      *
      * @param string $text
      * @param bool $isFollowedByLineFeed
-     * @return App\WebClientPrint\Escp2
+     * @return Escp2
      */
-    public function addBoldText(string $text, bool $isFollowedByLineFeed = false)
+    public function addBoldText(string $text, bool $isFollowedByLineFeed = false): Escp2
     {
         $boldText = $this->convertStringToEscp2Command('esc e') . $text . $this->convertStringToEscp2Command('esc f');
         return $this->addText($boldText, $isFollowedByLineFeed);
@@ -374,9 +374,9 @@ class Escp2
      *
      * @param string $text
      * @param bool $isFollowedByLineFeed
-     * @return App\WebClientPrint\Escp2
+     * @return Escp2
      */
-    public function addItalicText(string $text, bool $isFollowedByLineFeed = false)
+    public function addItalicText(string $text, bool $isFollowedByLineFeed = false): Escp2
     {
         $italicText = $this->convertStringToEscp2Command('esc 4') . $text . $this->convertStringToEscp2Command('esc 5');
         return $this->addText($italicText, $isFollowedByLineFeed);
