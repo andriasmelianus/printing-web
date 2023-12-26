@@ -89,8 +89,49 @@ class PrintESCPOSController extends Controller
 
             $printer = new Escp2();
             $cmds = $printer->initializePrinter()
-                ->addBoldText('Surabaya PANAS SEKALI', true)
-                ->addItalicText('Malang juga PANAS', true)
+                ->setPageLengthInDefinedUnit(140)
+                ->setMarginTopBottom(5, 5)
+                ->setTypeface(Escp2::TYPEFACE_SANS_SERIF_H)
+                ->enableProportionalMode()
+                ->setFontSize(Escp2::FONT_SIZE_8)
+
+                ->setTabStop([40])
+                ->addTab()
+                ->addText('WS01_ABV', true)
+                ->resetTabStop()
+
+                ->setTabStop([44])
+                ->setLineSpacing18()
+                ->addText('NPWP  : 01.682.572.1-641.000, Ijin PBF: FP.10.04/IV/0234/2019')
+                ->addTab()
+                ->addText('Untuk informasi, saran, dan keluhan, silahkan hubungi Customer Service di 081130582777', true)
+                ->addText('Alamat: Jl. RAYA TAMAN 48A - TAMAN, SIDOARJO', true)
+                ->resetTabStop()
+                ->setTabStop([72, 75])
+                ->addText('Alamat PBF: Jl. RAYA TAMAN 48A RT 005 RW 001 KEL. TAMAN, KEC. TAMAN, KAB')
+                ->addTab(2)
+                ->setFontSize(Escp2::FONT_SIZE_10)
+                ->addText('01/01/N/2022/537557', true)
+                ->setFontSize(Escp2::FONT_SIZE_8)
+                ->addText('            SIDOARJO, JAWA TIMUR', true)
+
+                ->setLineSpacing16()
+                ->addText('Kepada Yth :')
+                ->addTab()
+                ->setFontSize(Escp2::FONT_SIZE_10)
+                ->addText('0 Hari - 20/10/2022', true)
+                ->setFontSize(Escp2::FONT_SIZE_8)
+                ->setLineSpacingN360(30)
+                ->addLineFeed()
+                ->setLineSpacing16()
+                ->setFontSize(Escp2::FONT_SIZE_10)
+                ->addText('CV (TEST) TEPAT * / SULTAN ISKANDAR', true)
+                ->setLineSpacing18()
+                ->setFontSize(Escp2::FONT_SIZE_8)
+                ->addText('SULTAN ISKANDAR MUDA NO 29-31 AMPEL SEMAMPIR', true)
+                ->addText('KOTA SURABAYA JAWA TIMUR', true)
+                ->addText('SURABAYA - 081232771066', true)
+
                 ->generate();
 
             // $cmds = self::ESC_INITIALIZE;
@@ -125,36 +166,6 @@ class PrintESCPOSController extends Controller
             // $cmds .= 'Setting up PITCH & POINT...' . self::LF;
             // $cmds .= self::CUSTOM_PITCH_POINT;
             // $cmds .= 'Untuk informasi, saran, dan keluhan, silakan hubungi Customer Service di 081130582777' . self::LF;
-            // $cmds .= 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto dolorum facilis maxime quia, nesciunt, voluptatem excepturi voluptas aut asperiores molestiae, eveniet dolorem nulla neque impedit aperiam possimus voluptatibus quisquam itaque. ';
-            // $cmds .= 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto dolorum facilis maxime quia, nesciunt, voluptatem excepturi voluptas aut asperiores molestiae, eveniet dolorem nulla neque impedit aperiam possimus voluptatibus quisquam itaque. ';
-            // $cmds .= 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto dolorum facilis maxime quia, nesciunt, voluptatem excepturi voluptas aut asperiores molestiae, eveniet dolorem nulla neque impedit aperiam possimus voluptatibus quisquam itaque. ';
-            // $cmds .= 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto dolorum facilis maxime quia, nesciunt, voluptatem excepturi voluptas aut asperiores molestiae, eveniet dolorem nulla neque impedit aperiam possimus voluptatibus quisquam itaque. ';
-            // $cmds .= 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto dolorum facilis maxime quia, nesciunt, voluptatem excepturi voluptas aut asperiores molestiae, eveniet dolorem nulla neque impedit aperiam possimus voluptatibus quisquam itaque. ';
-            // $cmds .= 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto dolorum facilis maxime quia, nesciunt, voluptatem excepturi voluptas aut asperiores molestiae, eveniet dolorem nulla neque impedit aperiam possimus voluptatibus quisquam itaque. ';
-            // $cmds .= 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto dolorum facilis maxime quia, nesciunt, voluptatem excepturi voluptas aut asperiores molestiae, eveniet dolorem nulla neque impedit aperiam possimus voluptatibus quisquam itaque. ';
-            // $cmds .= 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto dolorum facilis maxime quia, nesciunt, voluptatem excepturi voluptas aut asperiores molestiae, eveniet dolorem nulla neque impedit aperiam possimus voluptatibus quisquam itaque. ';
-            // $cmds .= 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto dolorum facilis maxime quia, nesciunt, voluptatem excepturi voluptas aut asperiores molestiae, eveniet dolorem nulla neque impedit aperiam possimus voluptatibus quisquam itaque. ';
-            // $cmds .= 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto dolorum facilis maxime quia, nesciunt, voluptatem excepturi voluptas aut asperiores molestiae, eveniet dolorem nulla neque impedit aperiam possimus voluptatibus quisquam itaque. ';
-            // $cmds .= 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto dolorum facilis maxime quia, nesciunt, voluptatem excepturi voluptas aut asperiores molestiae, eveniet dolorem nulla neque impedit aperiam possimus voluptatibus quisquam itaque. ';
-            // $cmds .= 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto dolorum facilis maxime quia, nesciunt, voluptatem excepturi voluptas aut asperiores molestiae, eveniet dolorem nulla neque impedit aperiam possimus voluptatibus quisquam itaque. ';
-            // $cmds .= 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto dolorum facilis maxime quia, nesciunt, voluptatem excepturi voluptas aut asperiores molestiae, eveniet dolorem nulla neque impedit aperiam possimus voluptatibus quisquam itaque. ';
-            // $cmds .= 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto dolorum facilis maxime quia, nesciunt, voluptatem excepturi voluptas aut asperiores molestiae, eveniet dolorem nulla neque impedit aperiam possimus voluptatibus quisquam itaque. ';
-            // $cmds .= 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto dolorum facilis maxime quia, nesciunt, voluptatem excepturi voluptas aut asperiores molestiae, eveniet dolorem nulla neque impedit aperiam possimus voluptatibus quisquam itaque. ';
-            // $cmds .= 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto dolorum facilis maxime quia, nesciunt, voluptatem excepturi voluptas aut asperiores molestiae, eveniet dolorem nulla neque impedit aperiam possimus voluptatibus quisquam itaque. ';
-            // $cmds .= 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto dolorum facilis maxime quia, nesciunt, voluptatem excepturi voluptas aut asperiores molestiae, eveniet dolorem nulla neque impedit aperiam possimus voluptatibus quisquam itaque. ';
-            // $cmds .= 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto dolorum facilis maxime quia, nesciunt, voluptatem excepturi voluptas aut asperiores molestiae, eveniet dolorem nulla neque impedit aperiam possimus voluptatibus quisquam itaque. ';
-            // $cmds .= 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto dolorum facilis maxime quia, nesciunt, voluptatem excepturi voluptas aut asperiores molestiae, eveniet dolorem nulla neque impedit aperiam possimus voluptatibus quisquam itaque. ';
-            // $cmds .= 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto dolorum facilis maxime quia, nesciunt, voluptatem excepturi voluptas aut asperiores molestiae, eveniet dolorem nulla neque impedit aperiam possimus voluptatibus quisquam itaque. ';
-            // $cmds .= 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto dolorum facilis maxime quia, nesciunt, voluptatem excepturi voluptas aut asperiores molestiae, eveniet dolorem nulla neque impedit aperiam possimus voluptatibus quisquam itaque. ';
-            // $cmds .= 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto dolorum facilis maxime quia, nesciunt, voluptatem excepturi voluptas aut asperiores molestiae, eveniet dolorem nulla neque impedit aperiam possimus voluptatibus quisquam itaque. ';
-            // $cmds .= 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto dolorum facilis maxime quia, nesciunt, voluptatem excepturi voluptas aut asperiores molestiae, eveniet dolorem nulla neque impedit aperiam possimus voluptatibus quisquam itaque. ';
-            // $cmds .= 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto dolorum facilis maxime quia, nesciunt, voluptatem excepturi voluptas aut asperiores molestiae, eveniet dolorem nulla neque impedit aperiam possimus voluptatibus quisquam itaque. ';
-            // $cmds .= 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto dolorum facilis maxime quia, nesciunt, voluptatem excepturi voluptas aut asperiores molestiae, eveniet dolorem nulla neque impedit aperiam possimus voluptatibus quisquam itaque. ';
-            // $cmds .= 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto dolorum facilis maxime quia, nesciunt, voluptatem excepturi voluptas aut asperiores molestiae, eveniet dolorem nulla neque impedit aperiam possimus voluptatibus quisquam itaque. ';
-            // $cmds .= 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto dolorum facilis maxime quia, nesciunt, voluptatem excepturi voluptas aut asperiores molestiae, eveniet dolorem nulla neque impedit aperiam possimus voluptatibus quisquam itaque. ';
-            // $cmds .= 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto dolorum facilis maxime quia, nesciunt, voluptatem excepturi voluptas aut asperiores molestiae, eveniet dolorem nulla neque impedit aperiam possimus voluptatibus quisquam itaque. ';
-            // $cmds .= 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto dolorum facilis maxime quia, nesciunt, voluptatem excepturi voluptas aut asperiores molestiae, eveniet dolorem nulla neque impedit aperiam possimus voluptatibus quisquam itaque. ';
-            // $cmds .= 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto dolorum facilis maxime quia, nesciunt, voluptatem excepturi voluptas aut asperiores molestiae, eveniet dolorem nulla neque impedit aperiam possimus voluptatibus quisquam itaque. ';
             // $cmds .= 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto dolorum facilis maxime quia, nesciunt, voluptatem excepturi voluptas aut asperiores molestiae, eveniet dolorem nulla neque impedit aperiam possimus voluptatibus quisquam itaque. ';
 
             // $cmds .= self::ESC_INITIALIZE;
