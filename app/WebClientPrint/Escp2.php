@@ -468,6 +468,14 @@ class Escp2
     /**
      * Enable proportional mode (non-monospaced font).
      *
+     * - This command cancels the HMI set with the ESC c command.
+     * - This command cancels multipoint mode.
+     * - Changes made to the fixed-pitch setting with the ESC P,
+     *   ESC M, or ESC g commands during proportional mode take
+     *   effect when the printer exits proportional mode.
+     * - The printer automatically switches to LQ printing when
+     *   proportional spacing is selected.
+     *
      * @return Escp2
      */
     public function enableProportionalMode(): Escp2
@@ -480,6 +488,14 @@ class Escp2
 
     /**
      * Disable proportional mode (non-monospaced font).
+     *
+     * - This command cancels the HMI set with the ESC c command.
+     * - This command cancels multipoint mode.
+     * - Changes made to the fixed-pitch setting with the ESC P,
+     *   ESC M, or ESC g commands during proportional mode take
+     *   effect when the printer exits proportional mode.
+     * - The printer automatically switches to LQ printing when
+     *   proportional spacing is selected.
      *
      * @return Escp2
      */
@@ -754,6 +770,19 @@ class Escp2
     }
 
     /**
+     * Prints each dot twice with the second slightly below the first, creating bolder characters.
+     *
+     * @param string $text
+     * @param boolean $isFollowedByLineFeed
+     * @return Escp2
+     */
+    public function addDoubleStrikeText(string $text, bool $isFollowedByLineFeed = false): Escp2
+    {
+        $doubleStrikeText = $this->convertStringToEscp2Command('esc G') . $text . $this->convertStringToEscp2Command('esc H');
+        return $this->addText($doubleStrikeText, $isFollowedByLineFeed);
+    }
+
+    /**
      * Set the font size (height).
      * This function is represented as "Set the pitch and point" in the reference manual.
      *
@@ -785,7 +814,7 @@ class Escp2
             $m = 1;
         }
         if ($charactersPerInch >= 5 && $charactersPerInch <= 22) {
-            $m = 360 / $charactersPerInch;
+            $m = (int)(360 / $charactersPerInch);
         }
         $nL = $this->calculateNL($pointSize);
         $nH = $this->calculateNH($pointSize);
