@@ -105,20 +105,60 @@ class PrintESCPOSController extends Controller
                 'remark_2' => 'Ket : (HA) - ; Bns KAOSPTNWSL: 4 DIRECT Sep22 Rp. 77,066',
                 'date' => '20/10/2022',
             ];
-            $details = [
-                ['sku' => '245124609B', 'product_name' => 'PTN SHP BLACK 10ml (40+2) NEW', 'qty' => '10 CRT', 'price' => '9,428', 'discount_regular' => '141', 'discount_program' => '732', 'discount_cash' => '64', 'subtotal' => '3,566,130'],
-                ['sku' => '245124609B', 'product_name' => 'PTN SHP BLACK 10ml (40+2) NEW', 'qty' => '10 CRT', 'price' => '9,428', 'discount_regular' => '141', 'discount_program' => '732', 'discount_cash' => '64', 'subtotal' => '3,566,130'],
-                ['sku' => '245124609B', 'product_name' => 'PTN SHP BLACK 10ml (40+2) NEW', 'qty' => '10 CRT', 'price' => '9,428', 'discount_regular' => '141', 'discount_program' => '732', 'discount_cash' => '64', 'subtotal' => '3,566,130'],
-                ['sku' => '245124609B', 'product_name' => 'PTN SHP BLACK 10ml (40+2) NEW', 'qty' => '10 CRT', 'price' => '9,428', 'discount_regular' => '141', 'discount_program' => '732', 'discount_cash' => '64', 'subtotal' => '3,566,130'],
-                ['sku' => '245124609B', 'product_name' => 'PTN SHP BLACK 10ml (40+2) NEW', 'qty' => '10 CRT', 'price' => '9,428', 'discount_regular' => '141', 'discount_program' => '732', 'discount_cash' => '64', 'subtotal' => '3,566,130'],
-                ['sku' => '245124609B', 'product_name' => 'PTN SHP BLACK 10ml (40+2) NEW', 'qty' => '10 CRT', 'price' => '9,428', 'discount_regular' => '141', 'discount_program' => '732', 'discount_cash' => '64', 'subtotal' => '3,566,130'],
-                ['sku' => '245124609B', 'product_name' => 'PTN SHP BLACK 10ml (40+2) NEW', 'qty' => '10 CRT', 'price' => '9,428', 'discount_regular' => '141', 'discount_program' => '732', 'discount_cash' => '64', 'subtotal' => '3,566,130'],
-                ['sku' => '245124609B', 'product_name' => 'PTN SHP BLACK 10ml (40+2) NEW', 'qty' => '10 CRT', 'price' => '9,428', 'discount_regular' => '141', 'discount_program' => '732', 'discount_cash' => '64', 'subtotal' => '3,566,130'],
-                ['sku' => '245124609B', 'product_name' => 'PTN SHP BLACK 10ml (40+2) NEW', 'qty' => '10 CRT', 'price' => '9,428', 'discount_regular' => '141', 'discount_program' => '732', 'discount_cash' => '64', 'subtotal' => '3,566,130'],
-                ['sku' => '245124609B', 'product_name' => 'PTN SHP BLACK 10ml (40+2) NEW', 'qty' => '10 CRT', 'price' => '9,428', 'discount_regular' => '141', 'discount_program' => '732', 'discount_cash' => '64', 'subtotal' => '3,566,130'],
+            $details1 = [
+                ['sku' => '245124609B', 'product_name' => 'PTN SHP BLACK 10ml (1)', 'qty' => '10 CRT', 'price' => '9,428', 'discount_regular' => '141', 'discount_program' => '7', 'discount_cash' => '164', 'subtotal' => '3,566,130'],
+                ['sku' => '245124609B', 'product_name' => 'PTN SHP BLACK 10ml (2)', 'qty' => '1 CRT', 'price' => '428', 'discount_regular' => '141', 'discount_program' => '2', 'discount_cash' => '6', 'subtotal' => '123,166,130'],
+                ['sku' => '245124609B', 'product_name' => 'PTN SHP BLACK 10ml (3)', 'qty' => '4 CRT', 'price' => '10,428', 'discount_regular' => '41', 'discount_program' => '32', 'discount_cash' => '64', 'subtotal' => '566,130'],
+                ['sku' => '245124609B', 'product_name' => 'PTN SHP BLACK 10ml (4)', 'qty' => '5 CRT', 'price' => '28', 'discount_regular' => '1', 'discount_program' => '732', 'discount_cash' => '64', 'subtotal' => '120,566,130'],
+                ['sku' => '245124609B', 'product_name' => 'PTN SHP BLACK 10ml (5)', 'qty' => '2 CRT', 'price' => '0', 'discount_regular' => '141', 'discount_program' => '732', 'discount_cash' => '64', 'subtotal' => '6,130'],
+                ['sku' => '245124609B', 'product_name' => 'PTN SHP BLACK 10ml (6)', 'qty' => '12 CRT', 'price' => '28', 'discount_regular' => '1041', 'discount_program' => '1,212', 'discount_cash' => '64', 'subtotal' => '130'],
+                ['sku' => '245124609B', 'product_name' => 'PTN SHP BLACK 10ml (7)', 'qty' => '2 CRT', 'price' => '1,228', 'discount_regular' => '11', 'discount_program' => '0', 'discount_cash' => '64', 'subtotal' => '30'],
+                ['sku' => '245124609B', 'product_name' => 'PTN SHP BLACK 10ml (8)', 'qty' => '1 CRT', 'price' => '928', 'discount_regular' => '11', 'discount_program' => '0', 'discount_cash' => '64', 'subtotal' => '0'],
+                ['sku' => '245124609B', 'product_name' => 'PTN SHP BLACK 10ml (9)', 'qty' => '5 CRT', 'price' => '18', 'discount_regular' => '91', 'discount_program' => '73', 'discount_cash' => '64', 'subtotal' => '1,566,781,130'],
+                ['sku' => '245124609B', 'product_name' => 'PTN SHP BLACK 10ml (10)', 'qty' => '5 CRT', 'price' => '61', 'discount_regular' => '12', 'discount_program' => '2', 'discount_cash' => '64', 'subtotal' => '566,130'],
+                ['sku' => '245124609B', 'product_name' => 'PTN SHP BLACK 10ml (11)', 'qty' => '6 CRT', 'price' => '8', 'discount_regular' => '1', 'discount_program' => '22', 'discount_cash' => '64', 'subtotal' => '26,130'],
+                ['sku' => '245124609B', 'product_name' => 'PTN SHP BLACK 10ml (12)', 'qty' => '5 CRT', 'price' => '158', 'discount_regular' => '118', 'discount_program' => '7', 'discount_cash' => '64', 'subtotal' => '66,130'],
+            ];
+            $details2 = [
+                ['sku' => '245124609B', 'product_name' => 'PTN SHP BLACK 10ml (13)', 'qty' => '22 CRT', 'price' => '1', 'discount_regular' => '23', 'discount_program' => '78', 'discount_cash' => '64', 'subtotal' => '6,130'],
+                ['sku' => '245124609B', 'product_name' => 'PTN SHP BLACK 10ml (14)', 'qty' => '1 CRT', 'price' => '1', 'discount_regular' => '23', 'discount_program' => '78', 'discount_cash' => '64', 'subtotal' => '6,130'],
+                ['sku' => '245124609B', 'product_name' => 'PTN SHP BLACK 10ml (15)', 'qty' => '5 CRT', 'price' => '1', 'discount_regular' => '23', 'discount_program' => '78', 'discount_cash' => '64', 'subtotal' => '6,130'],
+                ['sku' => '245124609B', 'product_name' => 'PTN SHP BLACK 10ml (16)', 'qty' => '6 CRT', 'price' => '1', 'discount_regular' => '23', 'discount_program' => '78', 'discount_cash' => '64', 'subtotal' => '6,130'],
+                ['sku' => '245124609B', 'product_name' => 'PTN SHP BLACK 10ml (17)', 'qty' => '2 CRT', 'price' => '1', 'discount_regular' => '23', 'discount_program' => '78', 'discount_cash' => '64', 'subtotal' => '6,130'],
+                ['sku' => '245124609B', 'product_name' => 'PTN SHP BLACK 10ml (18)', 'qty' => '2 CRT', 'price' => '1', 'discount_regular' => '23', 'discount_program' => '78', 'discount_cash' => '64', 'subtotal' => '6,130'],
+                ['sku' => '245124609B', 'product_name' => 'PTN SHP BLACK 10ml (19)', 'qty' => '1 CRT', 'price' => '1', 'discount_regular' => '23', 'discount_program' => '78', 'discount_cash' => '64', 'subtotal' => '6,130'],
+                ['sku' => '245124609B', 'product_name' => 'PTN SHP BLACK 10ml (20)', 'qty' => '5 CRT', 'price' => '1', 'discount_regular' => '23', 'discount_program' => '78', 'discount_cash' => '64', 'subtotal' => '6,130'],
+                ['sku' => '245124609B', 'product_name' => 'PTN SHP BLACK 10ml (21)', 'qty' => '6 CRT', 'price' => '1', 'discount_regular' => '23', 'discount_program' => '78', 'discount_cash' => '64', 'subtotal' => '6,130'],
+                ['sku' => '245124609B', 'product_name' => 'PTN SHP BLACK 10ml (22)', 'qty' => '9 CRT', 'price' => '1', 'discount_regular' => '23', 'discount_program' => '78', 'discount_cash' => '64', 'subtotal' => '6,130'],
+                ['sku' => '245124609B', 'product_name' => 'PTN SHP BLACK 10ml (23)', 'qty' => '31 CRT', 'price' => '1', 'discount_regular' => '23', 'discount_program' => '78', 'discount_cash' => '64', 'subtotal' => '6,130'],
+                ['sku' => '245124609B', 'product_name' => 'PTN SHP BLACK 10ml (24)', 'qty' => '2 CRT', 'price' => '1', 'discount_regular' => '23', 'discount_program' => '78', 'discount_cash' => '64', 'subtotal' => '6,130'],
+            ];
+            $details3 = [
+                ['sku' => '245124609B', 'product_name' => 'PTN SHP BLACK 10ml (25)', 'qty' => '2 CRT', 'price' => '1', 'discount_regular' => '23', 'discount_program' => '78', 'discount_cash' => '64', 'subtotal' => '6,130'],
+                ['sku' => '245124609B', 'product_name' => 'PTN SHP BLACK 10ml (26)', 'qty' => '12 CRT', 'price' => '1', 'discount_regular' => '23', 'discount_program' => '78', 'discount_cash' => '64', 'subtotal' => '6,130'],
+                ['sku' => '245124609B', 'product_name' => 'PTN SHP BLACK 10ml (27)', 'qty' => '12 CRT', 'price' => '1', 'discount_regular' => '23', 'discount_program' => '78', 'discount_cash' => '64', 'subtotal' => '6,130'],
             ];
             $faktur = new Faktur();
-            $cmds = $faktur->generateEscp2Commands($header, $details);
+            $cmds = '';
+            $cmds .= $faktur->generateEscp2Commands($header, $details1); // <- 1 halaman faktur
+            $cmds .= $faktur->generateEscp2Commands($header, $details2); // <- 1 halaman faktur
+            $cmds .= $faktur->generateEscp2Commands($header, $details3); // <- 1 halaman faktur
+
+            // $printer = new Escp2();
+            // $cmds = $printer->initializePrinter()
+            //     ->setPageLengthInDefinedUnit(140)
+            //     ->setMarginTopBottom(5, 5)
+            //     ->setTypeface(Escp2::TYPEFACE_PRESTIGE)
+            //     ->setFontSize(Escp2::FONT_SIZE_8)
+            //     ->addText('2,345,678,901', true)
+            //     ->setFontSize(Escp2::FONT_SIZE_8, 12)
+            //     ->addBoldText('2,345,678,901', true)
+            //     ->setFontSize(Escp2::FONT_SIZE_8, 15)
+            //     ->addBoldText('2,345,678,901', true)
+
+            //     ->addCarriageReturn()
+            //     ->addFormFeed()
+            //     ->generate();
 
             // $cmds = self::ESC_INITIALIZE;
             // $cmds .= 'Initialize printer...' . self::LF;
