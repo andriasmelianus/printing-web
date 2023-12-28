@@ -703,7 +703,7 @@ class Escp2
     public function addFormFeed(int $count = 1): Escp2
     {
         for ($i = 0; $i < $count; $i++) {
-            $this->addCariageReturn(); // As recommended by reference manual.
+            $this->addCarriageReturn(); // As recommended by reference manual.
             $this->command .= $this->convertStringToEscp2Command('ff');
         }
 
