@@ -161,7 +161,7 @@ class Faktur
             // ### End row 1 details;
         }
 
-        return $escp2Printer->addCariageReturn()
+        return $escp2Printer->addCarriageReturn()
             ->addFormFeed()
             ->generate();
     }

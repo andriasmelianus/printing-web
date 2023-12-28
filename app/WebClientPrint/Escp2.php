@@ -662,7 +662,7 @@ class Escp2
     }
 
     /**
-     * Add cariage-return character.
+     * Add carriage-return character.
      * Moves the print position to the left-margin position.
      *
      * - Always send a CR command at the end of each line of
@@ -674,7 +674,7 @@ class Escp2
      * @param integer $count
      * @return Escp2
      */
-    public function addCariageReturn(int $count = 1): Escp2
+    public function addCarriageReturn(int $count = 1): Escp2
     {
         for ($i = 0; $i < $count; $i++) {
             $this->command .= $this->convertStringToEscp2Command('cr');
