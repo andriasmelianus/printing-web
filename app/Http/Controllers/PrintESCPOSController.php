@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Borwita\Printing\Faktur;
 use App\WebClientPrint\Escp2;
 use Illuminate\Http\Request;
 
@@ -23,7 +24,7 @@ use Neodynamic\SDK\Web\DefaultPrinter;
 use Neodynamic\SDK\Web\InstalledPrinter;
 use Neodynamic\SDK\Web\PrintFile;
 use Neodynamic\SDK\Web\ClientPrintJob;
-
+use PhpParser\Node\Stmt\Echo_;
 use Session;
 
 class PrintESCPOSController extends Controller
@@ -87,52 +88,37 @@ class PrintESCPOSController extends Controller
             $useDefaultPrinter = ($request->input('useDefaultPrinter') === 'checked');
             $printerName = urldecode($request->input('printerName'));
 
-            $printer = new Escp2();
-            $cmds = $printer->initializePrinter()
-                ->setPageLengthInDefinedUnit(140)
-                ->setMarginTopBottom(5, 5)
-                ->setTypeface(Escp2::TYPEFACE_SANS_SERIF_H)
-                ->enableProportionalMode()
-                ->setFontSize(Escp2::FONT_SIZE_8)
-
-                ->setTabStop([40])
-                ->addTab()
-                ->addText('WS01_ABV', true)
-                ->resetTabStop()
-
-                ->setTabStop([44])
-                ->setLineSpacing18()
-                ->addText('NPWP  : 01.682.572.1-641.000, Ijin PBF: FP.10.04/IV/0234/2019')
-                ->addTab()
-                ->addText('Untuk informasi, saran, dan keluhan, silahkan hubungi Customer Service di 081130582777', true)
-                ->addText('Alamat: Jl. RAYA TAMAN 48A - TAMAN, SIDOARJO', true)
-                ->resetTabStop()
-                ->setTabStop([72, 75])
-                ->addText('Alamat PBF: Jl. RAYA TAMAN 48A RT 005 RW 001 KEL. TAMAN, KEC. TAMAN, KAB')
-                ->addTab(2)
-                ->setFontSize(Escp2::FONT_SIZE_10)
-                ->addText('01/01/N/2022/537557', true)
-                ->setFontSize(Escp2::FONT_SIZE_8)
-                ->addText('            SIDOARJO, JAWA TIMUR', true)
-
-                ->setLineSpacing16()
-                ->addText('Kepada Yth :')
-                ->addTab()
-                ->setFontSize(Escp2::FONT_SIZE_10)
-                ->addText('0 Hari - 20/10/2022', true)
-                ->setFontSize(Escp2::FONT_SIZE_8)
-                ->setLineSpacingN360(30)
-                ->addLineFeed()
-                ->setLineSpacing16()
-                ->setFontSize(Escp2::FONT_SIZE_10)
-                ->addText('CV (TEST) TEPAT * / SULTAN ISKANDAR', true)
-                ->setLineSpacing18()
-                ->setFontSize(Escp2::FONT_SIZE_8)
-                ->addText('SULTAN ISKANDAR MUDA NO 29-31 AMPEL SEMAMPIR', true)
-                ->addText('KOTA SURABAYA JAWA TIMUR', true)
-                ->addText('SURABAYA - 081232771066', true)
-
-                ->generate();
+            $header = [
+                'segment_code' => 'WS01_ABV',
+                'page_count' => 10,
+                'company_tax_license' => 'NPWP: 01.682.572.1-641.000, Ijin PBF: FP.10.04/IV/0234/2019',
+                'remark_1' => 'Untuk informasi, saran, dan keluhan, silahkan hubungi Customer Service di 081130582777',
+                'company_address' => 'Alamat: Jl. RAYA TAMAN 48A - TAMAN, SIDOARJO',
+                'company_license_address' => 'Alamat PBF: Jl. RAYA TAMAN 48A RT 005 RW 001 KEL. TAMAN, KEC. TAMAN',
+                'company_license_city_province' => 'KAB. SIDOARJO, JAWA TIMUR',
+                'number' => '01/01/N/2022/537557',
+                'credit_note' => '0 Hari - 20/10/2022',
+                'customer_name' => 'CV (TEST) TEPAT * / SULTAN ISKANDAR',
+                'customer_address' => 'SULTAN ISKANDAR MUDA NO 29-31 AMPEL SEMAMPIR',
+                'customer_city_province' => 'KOTA SURABAYA JAWA TIMUR',
+                'customer_city_phone' => 'SURABAYA - 081232771066',
+                'remark_2' => 'Ket : (HA) - ; Bns KAOSPTNWSL: 4 DIRECT Sep22 Rp. 77,066',
+                'date' => '20/10/2022',
+            ];
+            $details = [
+                ['sku' => '245124609B', 'product_name' => 'PTN SHP BLACK 10ml (40+2) NEW', 'qty' => '10 CRT', 'price' => '9,428', 'discount_regular' => '141', 'discount_program' => '732', 'discount_cash' => '64', 'subtotal' => '3,566,130'],
+                ['sku' => '245124609B', 'product_name' => 'PTN SHP BLACK 10ml (40+2) NEW', 'qty' => '10 CRT', 'price' => '9,428', 'discount_regular' => '141', 'discount_program' => '732', 'discount_cash' => '64', 'subtotal' => '3,566,130'],
+                ['sku' => '245124609B', 'product_name' => 'PTN SHP BLACK 10ml (40+2) NEW', 'qty' => '10 CRT', 'price' => '9,428', 'discount_regular' => '141', 'discount_program' => '732', 'discount_cash' => '64', 'subtotal' => '3,566,130'],
+                ['sku' => '245124609B', 'product_name' => 'PTN SHP BLACK 10ml (40+2) NEW', 'qty' => '10 CRT', 'price' => '9,428', 'discount_regular' => '141', 'discount_program' => '732', 'discount_cash' => '64', 'subtotal' => '3,566,130'],
+                ['sku' => '245124609B', 'product_name' => 'PTN SHP BLACK 10ml (40+2) NEW', 'qty' => '10 CRT', 'price' => '9,428', 'discount_regular' => '141', 'discount_program' => '732', 'discount_cash' => '64', 'subtotal' => '3,566,130'],
+                ['sku' => '245124609B', 'product_name' => 'PTN SHP BLACK 10ml (40+2) NEW', 'qty' => '10 CRT', 'price' => '9,428', 'discount_regular' => '141', 'discount_program' => '732', 'discount_cash' => '64', 'subtotal' => '3,566,130'],
+                ['sku' => '245124609B', 'product_name' => 'PTN SHP BLACK 10ml (40+2) NEW', 'qty' => '10 CRT', 'price' => '9,428', 'discount_regular' => '141', 'discount_program' => '732', 'discount_cash' => '64', 'subtotal' => '3,566,130'],
+                ['sku' => '245124609B', 'product_name' => 'PTN SHP BLACK 10ml (40+2) NEW', 'qty' => '10 CRT', 'price' => '9,428', 'discount_regular' => '141', 'discount_program' => '732', 'discount_cash' => '64', 'subtotal' => '3,566,130'],
+                ['sku' => '245124609B', 'product_name' => 'PTN SHP BLACK 10ml (40+2) NEW', 'qty' => '10 CRT', 'price' => '9,428', 'discount_regular' => '141', 'discount_program' => '732', 'discount_cash' => '64', 'subtotal' => '3,566,130'],
+                ['sku' => '245124609B', 'product_name' => 'PTN SHP BLACK 10ml (40+2) NEW', 'qty' => '10 CRT', 'price' => '9,428', 'discount_regular' => '141', 'discount_program' => '732', 'discount_cash' => '64', 'subtotal' => '3,566,130'],
+            ];
+            $faktur = new Faktur();
+            $cmds = $faktur->generateEscp2Commands($header, $details);
 
             // $cmds = self::ESC_INITIALIZE;
             // $cmds .= 'Initialize printer...' . self::LF;
