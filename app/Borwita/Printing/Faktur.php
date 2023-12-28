@@ -3,6 +3,8 @@
 namespace App\Borwita\Printing;
 
 use App\WebClientPrint\Escp2;
+use Exception;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Class to generate ESC/P 2 printer commands to print formatted faktur
@@ -16,6 +18,34 @@ class Faktur
     public const MARGIN_BOTTOM = 5;
     // Max rows detail
     public const DETAIL_ROWS_MAX = 13;
+    // Fields
+    public const HEADER_COLUMNS = [
+        'segment_code',
+        'page_count',
+        'company_tax_license',
+        'remark_1',
+        'company_address',
+        'company_license_address',
+        'company_license_city_province',
+        'number',
+        'credit_note',
+        'customer_name',
+        'date',
+        'customer_address',
+        'customer_city_province',
+        'customer_city_phone',
+        'remark_2',
+    ];
+    public const DETAILS_COLUMNS = [
+        'sku',
+        'product_name',
+        'qty',
+        'price',
+        'discount_regular',
+        'discount_program',
+        'discount_cash',
+        'subtotal',
+    ];
 
     /**
      * Constructor.
@@ -24,6 +54,38 @@ class Faktur
      */
     public function __construct()
     {
+    }
+
+    /**
+     * Get non-existence required columns.
+     *
+     * @param array $header
+     * @param array $details
+     * @return array
+     */
+    public function getNonExistenceColumns(array $header, array $details): array
+    {
+        $nonExistenceColumns = [
+            'header' => [],
+            'details' => [],
+        ];
+
+        $headerIndexes = array_keys($header);
+        foreach (self::HEADER_COLUMNS as $column) {
+            if (!in_array($column, $headerIndexes)) {
+                array_push($nonExistenceColumns['header'], $column);
+            }
+        }
+        for ($i = 0; $i < count($details); $i++) {
+            $detailIndexes = array_keys($details[$i]);
+            foreach (self::DETAILS_COLUMNS as $column) {
+                if (!in_array($column, $detailIndexes)) {
+                    array_push($nonExistenceColumns['details'], ($i + 1) . ': ' . $column);
+                }
+            }
+        }
+
+        return $nonExistenceColumns;
     }
 
     /**
@@ -59,16 +121,29 @@ class Faktur
      * @param array $header
      * @param array $details
      * @return string
+     * @throws Exception
      */
     public function generateEscp2Commands(array $header, array $details): string
     {
+        $nonExistenceColumns = $this->getNonExistenceColumns($header, $details);
+        $requiredHeaders = $nonExistenceColumns['header'];
+        $requiredDetails = $nonExistenceColumns['details'];
+        if (count($requiredHeaders) > 0 && count($requiredDetails) > 0) {
+            throw new Exception("Some columns required value.", 1);
+        }
+
         $escp2Printer = new Escp2();
         $escp2Printer->initializePrinter()
             ->setPageLengthInDefinedUnit(self::PAGE_LENGTH)
             ->setMarginTopBottom(self::MARGIN_TOP, self::MARGIN_BOTTOM)
             ->setTypeface(Escp2::TYPEFACE_SANS_SERIF_H)
             ->enableProportionalMode()
+            ->enableCondensedFont()
             ->setFontSize(Escp2::FONT_SIZE_8)
+
+            // Uncomment to start printing on the second page.
+            // ->addCarriageReturn()
+            // ->addFormFeed()
 
             ->setTabStop([52, 100])
             ->addTab()
@@ -109,7 +184,7 @@ class Faktur
             ->addLineFeed()
             ->setLineSpacing18()
             ->resetTabStop()
-            ->setTabStop([3, 4, 64])
+            ->setTabStop([3, 4, 63])
             ->setFontSize(Escp2::FONT_SIZE_10)
             ->addTab()
             ->addText($header['customer_name'])
@@ -127,10 +202,9 @@ class Faktur
             ->addText($header['remark_2'], true)
 
             // Details configuration.
-            ->setFontSize(Escp2::FONT_SIZE_8)
-            ->setLineSpacingN360(55)
+            ->setLineSpacingN360(59)
             ->addLineFeed(3)
-            ->setTabStop([2, 12, 46, 63, 73, 81, 89, 96]); // <-- Format faktur pertama (8 kolom).
+            ->setTabStop([2, 12, 46, 61, 73, 80, 88, 94]); // <-- Format faktur pertama (8 kolom).
         // ->setTabStop([1, 11, 43, 58, 68, 75, 82, 88, 96]); // <-- Format faktur kedua (9 kolom).
 
         // Details data.
@@ -138,7 +212,9 @@ class Faktur
             // ### Begin row 1 details
             $detail = $details[$i];
 
-            $escp2Printer->addTab()
+            $escp2Printer->setTypeface(Escp2::TYPEFACE_SANS_SERIF_H)
+                ->setFontSize(Escp2::FONT_SIZE_8)
+                ->addTab()
                 ->addText($detail['sku'])
                 ->addTab()
                 ->addText($detail['product_name'])
@@ -146,17 +222,19 @@ class Faktur
                 ->addText($detail['qty'])
                 ->addTab()
                 ->disableProportionalMode()
-                ->enableCondensedFont()
-                ->addText(str_pad($detail['price'], 10, ' ', STR_PAD_LEFT))
+                // ->enableCondensedFont()
+                ->setTypeface(Escp2::TYPEFACE_PRESTIGE)
+                ->setFontSize(Escp2::FONT_SIZE_8, 16)
+                ->addBoldText(str_pad($detail['price'], 10, ' ', STR_PAD_LEFT))
                 ->addTab()
-                ->addText(str_pad($detail['discount_regular'], 6, ' ', STR_PAD_LEFT))
+                ->addBoldText(str_pad($detail['discount_regular'], 6, ' ', STR_PAD_LEFT))
                 ->addTab()
-                ->addText(str_pad($detail['discount_program'], 6, ' ', STR_PAD_LEFT))
+                ->addBoldText(str_pad($detail['discount_program'], 6, ' ', STR_PAD_LEFT))
                 ->addTab()
-                ->addText(str_pad($detail['discount_cash'], 6, ' ', STR_PAD_LEFT))
+                ->addBoldText(str_pad($detail['discount_cash'], 6, ' ', STR_PAD_LEFT))
                 ->addTab()
-                ->addText(str_pad($detail['subtotal'], 12, ' ', STR_PAD_LEFT), true)
-                ->disableCondensedFont()
+                ->addBoldText(str_pad($detail['subtotal'], 13, ' ', STR_PAD_LEFT), true)
+                // ->disableCondensedFont()
                 ->enableProportionalMode();
             // ### End row 1 details;
         }
