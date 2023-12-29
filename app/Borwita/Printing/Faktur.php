@@ -19,7 +19,7 @@ class Faktur
     public const MARGIN_TOP = 5;
     public const MARGIN_BOTTOM = 5;
     // Max rows detail
-    public const DETAIL_ROWS_MAX = 13;
+    public const DETAIL_ROWS_MAX = 12;
     // Fields
     public const HEADER_COLUMNS = [
         'segment_code',
@@ -239,28 +239,30 @@ class Faktur
 
             ->setFontSize(Escp2::FONT_SIZE_8)
             ->addTab()
-            ->addText($header['customer_address'], true)
+            ->addText($header['customer_address'])
+            ->addTab(2)
+            ->setFontSize(Escp2::FONT_SIZE_10)
+            // TODO: Add line spacing.
+            ->addText($header['salesman_zone'], true)
+
 
             ->setFontSize(Escp2::FONT_SIZE_8)
             ->addTab()
             ->addText($header['customer_city_province'])
             ->addTab()
-            ->addText($header['customer_code_2'])
-            ->addTab()
-            ->setFontSize(Escp2::FONT_SIZE_10)
-            ->addText($header['salesman_zone'], true)
+            ->addText($header['customer_code_2'], true)
 
             ->setFontSize(Escp2::FONT_SIZE_8)
             ->addTab()
-            ->addText($header['customer_city_phone'], true)
+            ->addText($header['customer_city_phone'])
+            ->addTab(2)
+            ->setFontSize(Escp2::FONT_SIZE_10)
+            ->addText($header['no_order'], true)
 
+            ->setFontSize(Escp2::FONT_SIZE_8)
             ->addTab(3)
             ->addText($header['segment'])
-            ->addTab()
-            ->setFontSize(Escp2::FONT_SIZE_10)
-            ->addText($header['no_order'])
 
-            ->setFontSize(Escp2::FONT_SIZE_8)
             ->addLineFeed()
             ->resetTabStop()
             ->addText($header['remark_2'], true)
@@ -272,6 +274,7 @@ class Faktur
         // ->setTabStop([1, 11, 43, 58, 68, 75, 82, 88, 96]); // <-- Format faktur kedua (9 kolom).
 
         // Details data.
+        $rowsLeft = self::DETAIL_ROWS_MAX;
         for ($i = 0; $i < count($details); $i++) {
             // ### Begin row 1 details
             $detail = $details[$i];
@@ -301,11 +304,14 @@ class Faktur
                 // ->disableCondensedFont()
                 ->enableProportionalMode();
             // ### End row 1 details;
+
+            $rowsLeft--;
         }
+        $escp2Printer->addLineFeed($rowsLeft > 0 ? $rowsLeft : 0);
 
         // Footer configuration.
         $escp2Printer->resetTabStop()
-            ->setLineSpacingN360(45)
+            ->setLineSpacingN360(41)
             ->addLineFeed()
             ->setLineSpacingN360(59)
             ->disableProportionalMode()
