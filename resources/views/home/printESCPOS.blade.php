@@ -25,7 +25,7 @@
 
 @section('scripts')
     <script type="text/javascript">
-        var wcppGetPrintersTimeout_ms = 60000; //60 sec
+        var wcppGetPrintersTimeout_ms = 30000; //60 sec
         var wcppGetPrintersTimeoutStep_ms = 500; //0.5 sec
 
         function wcpGetPrintersOnSuccess() {
