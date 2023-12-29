@@ -158,8 +158,8 @@ class PrintESCPOSController extends Controller
             $faktur = new Faktur();
             $cmds = '';
             $cmds .= $faktur->generateEscp2Commands($header, $details1, $footer); // <- 1 halaman faktur
-            // $cmds .= $faktur->generateEscp2Commands($header, $details2); // <- 1 halaman faktur
-            // $cmds .= $faktur->generateEscp2Commands($header, $details3); // <- 1 halaman faktur
+            $cmds .= $faktur->generateEscp2Commands($header, $details2, $footer); // <- 1 halaman faktur
+            $cmds .= $faktur->generateEscp2Commands($header, $details3, $footer); // <- 1 halaman faktur
 
             // $printer = new Escp2();
             // $cmds = $printer->initializePrinter()
