@@ -104,6 +104,23 @@ class PrintESCPOSController extends Controller
                 'customer_city_phone' => 'SURABAYA - 081232771066',
                 'remark_2' => 'Ket : (HA) - ; Bns KAOSPTNWSL: 4 DIRECT Sep22 Rp. 77,066',
                 'date' => '20/10/2022',
+                'salesman_zone' => 'JUNI PRISTIWANTO',
+                'no_order' => '01/01/SO/2022/541133',
+                'customer_code_1' => '04/01/027103',
+                'customer_code_2' => '04/01/01',
+                'segment' => 'HFS LARGE',
+            ];
+            $footer = [
+                'discount_total' => '2,362,193',
+                'total' => '21,396,781',
+                'dpp' => '19,206,951',
+                'discount_other_program' => '77,066',
+                'tax_percentage' => '11%',
+                'tax' => '2,112,765',
+                'grand_total' => '21,319,715',
+                'administrator' => 'AYU SUCI/551.4.1/006/SIPA.FD/II/438.5.2/2021',
+                'code' => '1749.230911-9999SA',
+                'page' => 'Hal 1/3',
             ];
             $details1 = [
                 ['sku' => '245124609B', 'product_name' => 'PTN SHP BLACK 10ml (1)', 'qty' => '10 CRT', 'price' => '9,428', 'discount_regular' => '141', 'discount_program' => '7', 'discount_cash' => '164', 'subtotal' => '3,566,130'],
@@ -140,9 +157,9 @@ class PrintESCPOSController extends Controller
             ];
             $faktur = new Faktur();
             $cmds = '';
-            $cmds .= $faktur->generateEscp2Commands($header, $details1); // <- 1 halaman faktur
-            $cmds .= $faktur->generateEscp2Commands($header, $details2); // <- 1 halaman faktur
-            $cmds .= $faktur->generateEscp2Commands($header, $details3); // <- 1 halaman faktur
+            $cmds .= $faktur->generateEscp2Commands($header, $details1, $footer); // <- 1 halaman faktur
+            // $cmds .= $faktur->generateEscp2Commands($header, $details2); // <- 1 halaman faktur
+            // $cmds .= $faktur->generateEscp2Commands($header, $details3); // <- 1 halaman faktur
 
             // $printer = new Escp2();
             // $cmds = $printer->initializePrinter()
