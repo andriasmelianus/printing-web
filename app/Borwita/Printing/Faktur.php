@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Log;
 /**
  * Class to generate ESC/P 2 printer commands to print formatted faktur
  * on a pre-printed continuous paper.
+ *
+ * This format is for 8-columns invoice.
  */
 class Faktur
 {
@@ -35,6 +37,11 @@ class Faktur
         'customer_city_province',
         'customer_city_phone',
         'remark_2',
+        'salesman_zone',
+        'no_order',
+        'customer_code_1',
+        'customer_code_2',
+        'segment',
     ];
     public const DETAILS_COLUMNS = [
         'sku',
@@ -45,6 +52,18 @@ class Faktur
         'discount_program',
         'discount_cash',
         'subtotal',
+    ];
+    public const FOOTER_COLUMNS = [
+        'discount_total',
+        'total',
+        'dpp',
+        'discount_other_program',
+        'tax_percentage',
+        'tax',
+        'grand_total',
+        'administrator',
+        'code',
+        'page',
     ];
 
     /**
@@ -107,6 +126,8 @@ class Faktur
      * - customer_city_province: KOTA SURABAYA JAWA TIMUR
      * - customer_city_phone: SURABAYA - 081232771066
      * - remark_2: Ket : <CASH> (HA) -    ; Bns KAOSPTNWSL: 4 DIRECT Sep22 Rp. 77,066
+     * - salesman_zone: JUNI PRISTIWANTO
+     * - no_order: 01/01/SO/2022/541133
      *
      * Available detail elements:
      * - sku: 245124609B
@@ -118,18 +139,39 @@ class Faktur
      * - discount_cash: 64
      * - subtotal: 3,566,130
      *
+     * Available footer elements:
+     * - discount_total: 2,362,193
+     * - total: 21,396,781
+     * - dpp: 19,206,951
+     * - discount_other_program: 77,066
+     * - tax_percentage: 11%
+     * - tax: 2,112,765
+     * - grand_total: 21,319,715
+     * - administrator: AYU SUCI/551.4.1/006/SIPA.FD/II/438.5.2/2021
+     * - code: 1749.230911-9999SA
+     * - page: Hal 1/3
+     *
      * @param array $header
      * @param array $details
      * @return string
      * @throws Exception
      */
-    public function generateEscp2Commands(array $header, array $details): string
+    public function generateEscp2Commands(array $header, array $details, array $footer): string
     {
         $nonExistenceColumns = $this->getNonExistenceColumns($header, $details);
         $requiredHeaders = $nonExistenceColumns['header'];
         $requiredDetails = $nonExistenceColumns['details'];
         if (count($requiredHeaders) > 0 && count($requiredDetails) > 0) {
             throw new Exception("Some columns required value.", 1);
+        }
+
+        // Make footer columns is nullable.
+        $footerColumns = array_keys($footer);
+        foreach (self::FOOTER_COLUMNS as $column) {
+            if (!in_array($column, $footerColumns)) {
+                // Fill the non-existent element with empty string.
+                $footer[$column] = '';
+            }
         }
 
         $escp2Printer = new Escp2();
@@ -162,7 +204,7 @@ class Faktur
             ->addText($header['company_address'], true)
             ->resetTabStop()
 
-            ->setTabStop([3, 10, 84, 87])
+            ->setTabStop([3, 10, 83, 87])
             ->addTab()
             ->addText($header['company_license_address'], true)
             ->setFontSize(Escp2::FONT_SIZE_8)
@@ -184,19 +226,41 @@ class Faktur
             ->addLineFeed()
             ->setLineSpacing18()
             ->resetTabStop()
-            ->setTabStop([3, 4, 63])
+            ->setTabStop([3, 4, 36, 62])
             ->setFontSize(Escp2::FONT_SIZE_10)
             ->addTab()
             ->addText($header['customer_name'])
             ->addTab()
+            ->setFontSize(Escp2::FONT_SIZE_8)
+            ->addText($header['customer_code_1'])
+            ->addTab()
+            ->setFontSize(Escp2::FONT_SIZE_10)
             ->addText($header['date'], true)
+
             ->setFontSize(Escp2::FONT_SIZE_8)
             ->addTab()
             ->addText($header['customer_address'], true)
+
+            ->setFontSize(Escp2::FONT_SIZE_8)
             ->addTab()
-            ->addText($header['customer_city_province'], true)
+            ->addText($header['customer_city_province'])
+            ->addTab()
+            ->addText($header['customer_code_2'])
+            ->addTab()
+            ->setFontSize(Escp2::FONT_SIZE_10)
+            ->addText($header['salesman_zone'], true)
+
+            ->setFontSize(Escp2::FONT_SIZE_8)
             ->addTab()
             ->addText($header['customer_city_phone'], true)
+
+            ->addTab(3)
+            ->addText($header['segment'])
+            ->addTab()
+            ->setFontSize(Escp2::FONT_SIZE_10)
+            ->addText($header['no_order'])
+
+            ->setFontSize(Escp2::FONT_SIZE_8)
             ->addLineFeed()
             ->resetTabStop()
             ->addText($header['remark_2'], true)
@@ -238,6 +302,46 @@ class Faktur
                 ->enableProportionalMode();
             // ### End row 1 details;
         }
+
+        // Footer configuration.
+        $escp2Printer->resetTabStop()
+            ->setLineSpacingN360(45)
+            ->addLineFeed()
+            ->setLineSpacingN360(59)
+            ->disableProportionalMode()
+            ->setFontSize(Escp2::FONT_SIZE_8)
+            ->setTabStop([49, 69, 76, 98, 115])
+
+            ->addTab(3)
+            ->addText(str_pad($footer['discount_total'], 13, ' ', STR_PAD_LEFT))
+            ->addTab()
+            ->addText($footer['page'])
+            ->addTab()
+            ->addText(str_pad($footer['total'], 13, ' ', STR_PAD_LEFT), true)
+
+            ->addTab(3)
+            ->addText(str_pad($footer['dpp'], 13, ' ', STR_PAD_LEFT))
+            ->addTab(2)
+            ->addText(str_pad($footer['discount_other_program'], 13, ' ', STR_PAD_LEFT), true)
+
+            ->addTab(2)
+            ->addText($footer['tax_percentage'])
+            ->addTab()
+            ->addText(str_pad($footer['tax'], 13, ' ', STR_PAD_LEFT))
+            ->addTab(2)
+            ->setFontSize(Escp2::FONT_SIZE_10)
+            ->addBoldText(str_pad($footer['grand_total'], 13, ' ', STR_PAD_LEFT), true)
+
+            ->setLineSpacing18()
+            ->setFontSize(Escp2::FONT_SIZE_8)
+            ->addTab()
+            ->addText($footer['administrator'], true)
+
+            ->addTab()
+            ->addText($footer['code'], true)
+
+            ->addTab(5)
+            ->addText(str_pad($footer['page'], 13, ' ', STR_PAD_LEFT));
 
         return $escp2Printer->addCarriageReturn()
             ->addFormFeed()
