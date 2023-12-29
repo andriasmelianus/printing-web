@@ -10,6 +10,14 @@ namespace App\WebClientPrint;
 class Escp2
 {
     // Constant values.
+    // Print quality.
+    public const PRINT_QUALITY_360_DPI = 1;
+    public const PRINT_QUALITY_180_DPI = 2;
+    public const PRINT_QUALITY_120_DPI = 3;
+    public const PRINT_QUALITY_90_DPI = 4;
+    public const PRINT_QUALITY_72_DPI = 5;
+    public const PRINT_QUALITY_60_DPI = 6;
+    // Typeface.
     public const TYPEFACE_ROMAN = 0;
     public const TYPEFACE_SANS_SERIF = 1;
     public const TYPEFACE_COURIER = 2;
@@ -24,6 +32,7 @@ class Escp2
     public const TYPEFACE_SANS_SERIF_H = 11;
     public const TYPEFACE_SV_BUSABA = 30;
     public const TYPEFACE_SV_JITTRA = 31;
+    // Font size.
     public const FONT_SIZE_8 = 8;
     public const FONT_SIZE_10 = 10.5;
     public const FONT_SIZE_12 = 12;
@@ -37,6 +46,7 @@ class Escp2
     public const FONT_SIZE_28 = 28;
     public const FONT_SIZE_30 = 30;
     public const FONT_SIZE_32 = 32;
+    // Miscellaneous.
     private const MAXIMUM_RESOLUTION = 3600;
     private const INDEX_FROM = 'from';
     private const INDEX_TO = 'to';
@@ -84,25 +94,25 @@ class Escp2
      * @param int $printQuality Define the printing quality.
      * @return void
      */
-    public function __construct(int $printQuality = 1)
+    public function __construct(int $printQuality = self::PRINT_QUALITY_360_DPI)
     {
         switch ($printQuality) {
-            case 1:
+            case self::PRINT_QUALITY_360_DPI:
                 $this->unit = 10;
                 break;
-            case 2:
+            case self::PRINT_QUALITY_180_DPI:
                 $this->unit = 20;
                 break;
-            case 3:
+            case self::PRINT_QUALITY_120_DPI:
                 $this->unit = 30;
                 break;
-            case 4:
+            case self::PRINT_QUALITY_90_DPI:
                 $this->unit = 40;
                 break;
-            case 5:
+            case self::PRINT_QUALITY_72_DPI:
                 $this->unit = 50;
                 break;
-            case 6:
+            case self::PRINT_QUALITY_60_DPI:
                 $this->unit = 60;
                 break;
 
@@ -269,7 +279,7 @@ class Escp2
      */
     public function initializePrinter(string $initializeCommand = '@'): Escp2
     {
-        $this->command = $this->convertStringToEscp2Command('esc ' . $initializeCommand);
+        $this->command .= $this->convertStringToEscp2Command('esc ' . $initializeCommand);
         $this->command .= $this->convertStringToEscp2Command('esc ( U 1 0 ' . $this->unit);
 
         return $this;
