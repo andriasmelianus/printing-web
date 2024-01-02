@@ -658,6 +658,49 @@ class Escp2
     }
 
     /**
+     * Sets vertical tab positionsn (in the current character pitch) at the rows
+     * specified by n1 to nk.
+     *
+     * - The values for n must be in ascending order; a value of n less than the
+     *   previous n ends tab setting (just like the NUL code).
+     * - Changing the line spacing does not affect previous tab settings.
+     * - The tab settings move to match any subsequent movement in the top-margin
+     *   position.
+     * - Send an ESC B NUL command to cancel all tab setting.
+     * - A maximum of 16 vertical tabs can be set.
+     * - The printer stores all tab settings, even if outside the printing area;
+     *   if you increase the page length to include previously set tabs, you can
+     *   move to those positions with the VT (tab vertically) command.
+     * - Sending the ESC B command clears any previous tab settings.
+     *
+     * @param array $verticalTabStops
+     * @return Escp2
+     */
+    public function setVerticalTabStop(array $verticalTabStops): Escp2
+    {
+        $stringCommand = 'esc B ';
+        foreach ($verticalTabStops as $verticalTabStop) {
+            $stringCommand .= $verticalTabStop . ' ';
+        }
+        $stringCommand .= 'nul';
+        $this->command .= $this->convertStringToEscp2Command($stringCommand);
+
+        return $this;
+    }
+
+    /**
+     * Reset vertical tab stop settings to the default values.
+     *
+     * @return Escp2
+     */
+    public function resetVerticalTabStop(): Escp2
+    {
+        $this->command .= $this->convertStringToEscp2Command('esc B nul');
+
+        return $this;
+    }
+
+    /**
      * Add tab character.
      *
      * @param int $count
@@ -667,6 +710,21 @@ class Escp2
     {
         for ($i = 0; $i < $count; $i++) {
             $this->command .= $this->convertStringToEscp2Command('ht');
+        }
+
+        return $this;
+    }
+
+    /**
+     * Add vertical tab character.
+     *
+     * @param integer $count
+     * @return Escp2
+     */
+    public function addVerticalTab(int $count = 1): Escp2
+    {
+        for ($i = 0; $i < $count; $i++) {
+            $this->command .= $this->convertStringToEscp2Command('vt');
         }
 
         return $this;
