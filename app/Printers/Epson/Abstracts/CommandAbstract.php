@@ -204,6 +204,60 @@ abstract class CommandAbstract
     }
 
     /**
+     * Add master select command (command to format the font appearance).
+     *
+     *
+     * @param integer $cpi Characters per inch. Supported values are: 10 and 12.
+     * @param bool $isProportional
+     * @param bool $isCondensed
+     * @param bool $isBold
+     * @param bool $isDoubleStrike
+     * @param bool $isDoubleWidth
+     * @param bool $isItalic
+     * @param bool $isUnderline
+     * @return void
+     */
+    protected function appendMasterSelectCommand(
+        int $cpi = 10,
+        bool $isProportional = false,
+        bool $isCondensed = false,
+        bool $isBold = false,
+        bool $isDoubleStrike = false,
+        bool $isDoubleWidth = false,
+        bool $isItalic = false,
+        bool $isUnderline = false
+    ): void {
+        $n = 0;
+
+        if ($cpi == 12) {
+            $n += 1;
+        }
+        if ($isProportional) {
+            $n += 2;
+        }
+        if ($isCondensed) {
+            $n += 4;
+        }
+        if ($isBold) {
+            $n += 8;
+        }
+        if ($isDoubleStrike) {
+            $n += 16;
+        }
+        if ($isDoubleWidth) {
+            $n += 32;
+        }
+        if ($isItalic) {
+            $n += 64;
+        }
+        if ($isUnderline) {
+            $n += 128;
+        }
+
+        $this->addCommand('esc ! ' . $n);
+    }
+
+    /**
      * Add plain text to the command list.
      * Plain text will be printed as it is.
      *

@@ -16,6 +16,16 @@ interface EscpContract
     public function disableCondensedFont();
     public function resetCpi();
     public function setTypeface(int $typefaceCode);
+    public function setFont(
+        int $cpi = 10,
+        bool $isProportional = false,
+        bool $isCondensed = false,
+        bool $isBold = false,
+        bool $isDoubleStrike = false,
+        bool $isDoubleWidth = false,
+        bool $isItalic = false,
+        bool $isUnderline = false
+    );
 
     public function addText(string $text, bool $endWithLineFeed = false);
     public function addBoldText(string $boldText, bool $endWithLineFeed = false);

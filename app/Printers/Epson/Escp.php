@@ -220,6 +220,34 @@ class Escp extends CommandAbstract implements EscpContract
     }
 
     /**
+     * Set font appearance with master select command.
+     *
+     * @param int  $cpi Characters per inch. Supported values are: 10 and 12.
+     * @param bool $isProportional
+     * @param bool $isCondensed
+     * @param bool $isBold
+     * @param bool $isDoubleStrike
+     * @param bool $isDoubleWidth
+     * @param bool $isItalic
+     * @param bool $isUnderline
+     * @return self
+     */
+    public function setFont(
+        int $cpi = 10,
+        bool $isProportional = false,
+        bool $isCondensed = false,
+        bool $isBold = false,
+        bool $isDoubleStrike = false,
+        bool $isDoubleWidth = false,
+        bool $isItalic = false,
+        bool $isUnderline = false
+    ): self {
+        $this->appendMasterSelectCommand($cpi, $isProportional, $isCondensed, $isBold, $isDoubleStrike, $isDoubleWidth, $isItalic, $isUnderline);
+
+        return $this;
+    }
+
+    /**
      * Add plain text.
      *
      * @param string $text
