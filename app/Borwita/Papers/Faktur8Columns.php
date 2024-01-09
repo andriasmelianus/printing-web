@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Borwita\Printing;
+namespace App\Borwita\Papers;
 
 use App\WebClientPrint\Escp2;
 use Exception;
@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Log;
  *
  * This format is for 8-columns invoice.
  */
-class Faktur
+class Faktur8Columns
 {
     // Units are in millimeters.
     public const PAGE_LENGTH = 140;
