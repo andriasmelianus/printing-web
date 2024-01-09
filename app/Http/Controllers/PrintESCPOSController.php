@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Borwita\Printing\Faktur;
-use App\WebClientPrint\Escp2;
+use App\Borwita\Papers\Faktur8Columns;
+// use App\WebClientPrint\Escp2;
+use App\Printers\Epson\Escp2;
 use Illuminate\Http\Request;
 
 
@@ -155,11 +156,21 @@ class PrintESCPOSController extends Controller
                 ['sku' => '245124609B', 'product_name' => 'PTN SHP BLACK 10ml (26)', 'qty' => '12 CRT', 'price' => '1', 'discount_regular' => '23', 'discount_program' => '78', 'discount_cash' => '64', 'subtotal' => '6,130'],
                 ['sku' => '245124609B', 'product_name' => 'PTN SHP BLACK 10ml (27)', 'qty' => '12 CRT', 'price' => '1', 'discount_regular' => '23', 'discount_program' => '78', 'discount_cash' => '64', 'subtotal' => '6,130'],
             ];
-            $faktur = new Faktur();
+            $faktur = new Faktur8Columns();
             $cmds = '';
             $cmds .= $faktur->generateEscp2Commands($header, $details1, $footer); // <- 1 halaman faktur
             $cmds .= $faktur->generateEscp2Commands($header, $details2, $footer); // <- 1 halaman faktur
             $cmds .= $faktur->generateEscp2Commands($header, $details3, $footer); // <- 1 halaman faktur
+
+            // $printer = new Escp2();
+            // $cmds .= $printer->initialize()
+            //     ->setPageLengthInDefinedUnit(140)
+            //     ->setMarginTopBottom(5, 5)
+            //     ->setTypeface(Escp2::TYPEFACE_COURIER)
+            //     ->enableProportionalMode()
+            //     ->setFontSize(11)
+            //     ->addText('Courier 11-pt: 0123456789 ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz', true)
+            //     ->generate();
 
             // $printer = new Escp2();
             // $cmds = $printer->initializePrinter()
