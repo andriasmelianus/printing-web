@@ -250,9 +250,9 @@ class Escp2 extends CommandAbstract implements EscpContract
      *
      * @param float $topMarginInMilimeter Margin measured from top.
      * @param float $bottomMarginInMilimeter Margin measured from bottom.
-     * @return Escp2
+     * @return self
      */
-    public function setMarginTopBottom(float $topMarginInMilimeter, float $bottomMarginInMilimeter): Escp2
+    public function setMarginTopBottom(float $topMarginInMilimeter, float $bottomMarginInMilimeter): self
     {
         $this->topMarginInMilimeter = $topMarginInMilimeter;
         /**
@@ -318,9 +318,9 @@ class Escp2 extends CommandAbstract implements EscpContract
      * beside the pre-defined 1/6 and 1/8-inch line spacing.
      *
      * @param int $n Line spacing value to be divided.
-     * @return Escp2
+     * @return self
      */
-    public function setLineSpacingN180(int $n): Escp2
+    public function setLineSpacingN180(int $n): self
     {
         $this->addCommand('esc 3 ' . $n);
 
@@ -333,9 +333,9 @@ class Escp2 extends CommandAbstract implements EscpContract
      * beside the pre-defined 1/6 and 1/8-inch line spacing.
      *
      * @param int $n Line spacing value to be divided.
-     * @return Escp2
+     * @return self
      */
-    public function setLineSpacingN360(int $n): Escp2
+    public function setLineSpacingN360(int $n): self
     {
         $this->addCommand('esc + ' . $n);
 
@@ -348,9 +348,9 @@ class Escp2 extends CommandAbstract implements EscpContract
      * beside the pre-defined 1/6 and 1/8-inch line spacing.
      *
      * @param int $n Line spacing value to be divided.
-     * @return Escp2
+     * @return self
      */
-    public function setLineSpacingN60(int $n): Escp2
+    public function setLineSpacingN60(int $n): self
     {
         $this->addCommand('esc A ' . $n);
 
@@ -505,9 +505,9 @@ class Escp2 extends CommandAbstract implements EscpContract
      *
      * @param float $pointSize Pick a value from available constants.
      * @param int $charactersPerInch Setting it to 1 means proportional mode.
-     * @return Escp2
+     * @return self
      */
-    public function setFontSize(float $pointSize = self::FONT_SIZE_10, int $charactersPerInch = 0): Escp2
+    public function setFontSize(float $pointSize = self::FONT_SIZE_10, int $charactersPerInch = 0): self
     {
         $m = 0;
         /**
