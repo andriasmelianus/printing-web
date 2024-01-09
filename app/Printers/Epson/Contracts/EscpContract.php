@@ -32,4 +32,7 @@ interface EscpContract
     public function addItalicText(string $italicText, bool $endWithLineFeed = false);
     public function addTab(int $count = 1);
     public function addVerticalTab(int $count = 1);
+    public function addLineFeed(int $count = 1);
+    public function addCarriageReturn(int $count = 1);
+    public function addFormFeed(int $count = 1);
 }

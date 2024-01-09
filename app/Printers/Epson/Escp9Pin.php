@@ -322,4 +322,61 @@ class Escp9Pin extends CommandAbstract implements EscpContract
 
         return $this;
     }
+
+    /**
+     * Add line-feed character.
+     *
+     * @param int $count
+     * @return self
+     */
+    public function addLineFeed(int $count = 1): self
+    {
+        $this->appendLineFeedCommand($count);
+
+        return $this;
+    }
+
+    /**
+     * Add carriage-return character.
+     * Moves the print position to the left-margin position.
+     *
+     * - Always send a CR command at the end of each line of
+     *   text or graphics data.
+     * - When automatic line-feed is selected (through
+     *   DIP-switch or panel setting), the CR command is
+     *   accompanied by a LF command.
+     *
+     * @param integer $count
+     * @return self
+     */
+    public function addCarriageReturn(int $count = 1): self
+    {
+        $this->appendCarriageReturnCommand($count);
+
+        return $this;
+    }
+
+    /**
+     * Add form-feed character.
+     *
+     * - Advances the vertical print position on continuous paper to the
+     *   top-of-form position of the next page.
+     * - Ejects single-sheet paper.
+     * - Moves the horizontal print position to the left-margin position.
+     * - Prints all data in the buffer.
+     *
+     * - Always send a FF command at the end of each page and each print job.
+     * - It is recommended to always send a CR command before the FF command.
+     * - The FF command cacncels one-line double-width printing selected
+     *   with the SO or ESC SO commands.
+     *
+     * @param int $count
+     * @return self
+     */
+    public function addFormFeed(int $count = 1): self
+    {
+        $this->appendFormFeedCommand($count);
+
+        return $this;
+    }
 }
