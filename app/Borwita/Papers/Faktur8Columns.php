@@ -165,7 +165,7 @@ class Faktur8Columns
             throw new Exception("Some columns required value.", 1);
         }
 
-        // Make footer columns is nullable.
+        // Make footer columns nullable.
         $footerColumns = array_keys($footer);
         foreach (self::FOOTER_COLUMNS as $column) {
             if (!in_array($column, $footerColumns)) {
@@ -349,8 +349,6 @@ class Faktur8Columns
             ->addTab(5)
             ->addText(str_pad($footer['page'], 13, ' ', STR_PAD_LEFT));
 
-        return $escp2Printer->addCarriageReturn()
-            ->addFormFeed()
-            ->generate();
+        return $escp2Printer->addFormFeed()->generate();
     }
 }

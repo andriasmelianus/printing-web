@@ -110,7 +110,7 @@ abstract class CommandAbstract
 
     /**
      * Get formatted command string ready to be sent to the printer device.
-     * This function is intended to give more option in command output format.
+     * This function is intended to give more option in command output supported format.
      *
      * @param string $command
      * @return string
