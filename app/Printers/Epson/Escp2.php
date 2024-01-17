@@ -293,9 +293,9 @@ class Escp2 extends CommandAbstract implements EscpContract
      *
      * @return self
      */
-    public function set16Spacing(): self
+    public function setLineSpacing16(): self
     {
-        $this->append16SpacingCommand();
+        $this->appendLineSpacing16Command();
 
         return $this;
     }
@@ -305,9 +305,9 @@ class Escp2 extends CommandAbstract implements EscpContract
      *
      * @return self
      */
-    public function set18Spacing(): self
+    public function setLineSpacing18(): self
     {
-        $this->append18SpacingCommand();
+        $this->appendLineSpacing18Command();
 
         return $this;
     }

@@ -7,8 +7,8 @@ interface EscpContract
     public function initialize(bool $clearPreviousCommands);
     public function setPageLength(int $lengthInInches);
 
-    public function set16Spacing();
-    public function set18Spacing();
+    public function setLineSpacing16();
+    public function setLineSpacing18();
 
     public function enableProportionalMode();
     public function disableProportionalMode();

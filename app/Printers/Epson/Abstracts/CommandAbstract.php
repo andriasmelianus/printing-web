@@ -177,9 +177,19 @@ abstract class CommandAbstract
      *
      * @return void
      */
-    protected function append16SpacingCommand(): void
+    protected function appendLineSpacing16Command(): void
     {
         $this->addCommand('esc 2');
+    }
+
+    /**
+     * Add command to set line spacing to 1/8 inch.
+     *
+     * @return void
+     */
+    protected function appendLineSpacing18Command(): void
+    {
+        $this->addCommand('esc 0');
     }
 
     /**
@@ -191,16 +201,6 @@ abstract class CommandAbstract
     protected function appendTypefaceCommand(int $typefaceCode): void
     {
         $this->addCommand('esc k ' . $typefaceCode);
-    }
-
-    /**
-     * Add command to set line spacing to 1/8 inch.
-     *
-     * @return void
-     */
-    protected function append18SpacingCommand(): void
-    {
-        $this->addCommand('esc 0');
     }
 
     /**
