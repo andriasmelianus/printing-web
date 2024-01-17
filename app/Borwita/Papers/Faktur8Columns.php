@@ -2,7 +2,7 @@
 
 namespace App\Borwita\Papers;
 
-use App\WebClientPrint\Escp2;
+use App\Printers\Epson\Escp2;
 use Exception;
 use Illuminate\Support\Facades\Log;
 
@@ -175,7 +175,7 @@ class Faktur8Columns
         }
 
         $escp2Printer = new Escp2();
-        $escp2Printer->initializePrinter()
+        $escp2Printer->initialize()
             ->setPageLengthInDefinedUnit(self::PAGE_LENGTH)
             ->setMarginTopBottom(self::MARGIN_TOP, self::MARGIN_BOTTOM)
             ->setTypeface(Escp2::TYPEFACE_SANS_SERIF_H)
@@ -184,7 +184,6 @@ class Faktur8Columns
             ->setFontSize(Escp2::FONT_SIZE_8)
 
             // Uncomment to start printing on the second page.
-            // ->addCarriageReturn()
             // ->addFormFeed()
 
             ->setTabStop([52, 100])
@@ -279,7 +278,7 @@ class Faktur8Columns
             // ### Begin row 1 details
             $detail = $details[$i];
 
-            $escp2Printer->setTypeface(Escp2::TYPEFACE_SANS_SERIF_H)
+            $escp2Printer->setTypeface(Escp2::TYPEFACE_COURIER)
                 ->setFontSize(Escp2::FONT_SIZE_8)
                 ->addTab()
                 ->addText($detail['sku'])
@@ -290,7 +289,7 @@ class Faktur8Columns
                 ->addTab()
                 ->disableProportionalMode()
                 // ->enableCondensedFont()
-                ->setTypeface(Escp2::TYPEFACE_PRESTIGE)
+                ->setTypeface(Escp2::TYPEFACE_COURIER)
                 ->setFontSize(Escp2::FONT_SIZE_8, 16)
                 ->addText(str_pad($detail['price'], 10, ' ', STR_PAD_LEFT))
                 ->addTab()
@@ -316,7 +315,7 @@ class Faktur8Columns
             ->setLineSpacingN360(59)
             ->disableProportionalMode()
             ->setFontSize(Escp2::FONT_SIZE_8)
-            ->setTabStop([49, 69, 76, 98, 115])
+            ->setTabStop([49, 69, 76, 98, 113])
 
             ->addTab(3)
             ->addText(str_pad($footer['discount_total'], 13, ' ', STR_PAD_LEFT))
@@ -335,7 +334,7 @@ class Faktur8Columns
             ->addTab()
             ->addText(str_pad($footer['tax'], 13, ' ', STR_PAD_LEFT))
             ->addTab(2)
-            ->setFontSize(Escp2::FONT_SIZE_10)
+            ->setFont(10, true)
             ->addBoldText(str_pad($footer['grand_total'], 13, ' ', STR_PAD_LEFT), true)
 
             ->setLineSpacing18()
