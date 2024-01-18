@@ -232,24 +232,37 @@ abstract class CommandAbstract
         if ($cpi == 12) {
             $n += 1;
         }
+
         if ($isProportional) {
+            $this->proportionalModeEnabled = true;
             $n += 2;
+        } else {
+            $this->proportionalModeEnabled = false;
         }
+
         if ($isCondensed) {
+            $this->condensedFontEnabled = true;
             $n += 4;
+        } else {
+            $this->condensedFontEnabled = false;
         }
+
         if ($isBold) {
             $n += 8;
         }
+
         if ($isDoubleStrike) {
             $n += 16;
         }
+
         if ($isDoubleWidth) {
             $n += 32;
         }
+
         if ($isItalic) {
             $n += 64;
         }
+
         if ($isUnderline) {
             $n += 128;
         }
