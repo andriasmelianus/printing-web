@@ -374,7 +374,7 @@ abstract class CommandAbstract
     protected function appendFormFeedCommand(int $count = 1): void
     {
         for ($i = 0; $i < $count; $i++) {
-            $this->addCarriageReturn(); // As recommended by reference manual.
+            $this->appendCarriageReturnCommand(); // As recommended by reference manual.
             $this->addCommand('ff');
         }
     }
@@ -386,6 +386,8 @@ abstract class CommandAbstract
      */
     public function generate(): string
     {
+        $this->appendCarriageReturnCommand(); // To start printing process immediately.
+
         return implode('', $this->commands);
     }
 
